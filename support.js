@@ -22,18 +22,16 @@ String.prototype.format = function (args) {
         }
     }
     return result;
-}
+};
 
 function getPosition(i) {
     return 20 + i * 120;
 }
-
 function getNumberColor(e) {
     if (e <= 4)
         return "#776e65";
     return "white";
 }
-
 function getNumberBackGroundColor(e) {
     switch (e) {
         case 2:
@@ -79,9 +77,8 @@ function getNumberBackGroundColor(e) {
 
     return "black";
 }
-
 function getEmptyCell(array) {
-    var empty = new Array();
+    var empty = [];
 
     for (var i = 0; i < 4; i++) {
         for (var j = 0; j < 4; j++) {
@@ -90,4 +87,156 @@ function getEmptyCell(array) {
         }
     }
     return empty;
+}
+function moveLeft(board) {
+    var havePlus = [];
+    for (var i = 0; i < 4; i++) {
+        havePlus = [];
+        for (var j = 1; j < 4; j++) {
+            if (board[i][j] == 0) {
+                continue;
+            }
+
+            for (var k = 0; k < j; k++) {
+                if (board[i][k] == 0 && noBlockInRow(i, k, j, board)) {
+                    showMoveAnimate(i, j, i, k);
+                    board[i][k] = board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+                else if (board[i][k] == board[i][j] && noBlockInRow(i, k, j, board)) {
+                    if (havePlus.indexOf(board[i][j]) > -1) {
+                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                        continue;
+                    }
+
+                    havePlus.push(board[i][j] * 2);
+                    showMoveAnimate(i, j, i, k);
+                    board[i][k] += board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    setTimeout("main.updateBoard()", 200);
+    return true;
+}
+function moveRight(board) {
+    var havePlus = [];
+    for (var i = 0; i < 4; i++) {
+        havePlus = [];
+        for (var j = 2; j > -1; j--) {
+            if (board[i][j] == 0) {
+                continue;
+            }
+
+            for (var k = 3; k > j; k--) {
+                if (board[i][k] == 0 && noBlockInRow(i, j, k, board)) {
+                    showMoveAnimate(i, j, i, k);
+                    board[i][k] = board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+                else if (board[i][k] == board[i][j] && noBlockInRow(i, j, k, board)) {
+                    if (havePlus.indexOf(board[i][j]) > -1) {
+                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                        continue;
+                    }
+
+                    havePlus.push(board[i][j] * 2);
+                    showMoveAnimate(i, j, i, k);
+                    board[i][k] += board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    setTimeout("main.updateBoard()", 200);
+    return true;
+}
+function moveUp(board) {
+    var havePlus = [];
+    for (var j = 0; j < 4; j++) {
+        havePlus = [];
+        for (var i = 1; i < 4; i++) {
+            if (board[i][j] == 0) {
+                continue;
+            }
+
+            for (var k = 0; k < i; k++) {
+                if (board[k][j] == 0 && noBlockInColumn(j, k, i, board)) {
+                    showMoveAnimate(i, j, k, j);
+                    board[k][j] = board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+                else if (board[k][j] == board[i][j] && noBlockInColumn(j, k, i, board)) {
+                    if (havePlus.indexOf(board[i][j]) > -1) {
+                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                        continue;
+                    }
+
+                    havePlus.push(board[i][j] * 2);
+                    showMoveAnimate(i, j, k, j);
+                    board[k][j] += board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    setTimeout("main.updateBoard()", 200);
+    return true;
+}
+function moveDown(board) {
+    var havePlus = [];
+    for (var j = 0; j < 4; j++) {
+        havePlus = [];
+        for (var i = 2; i > -1; i--) {
+            if (board[i][j] == 0) {
+                continue;
+            }
+
+            for (var k = 3; k > i; k--) {
+                if (board[k][j] == 0 && noBlockInColumn(j, i, k, board)) {
+                    showMoveAnimate(i, j, k, j);
+                    board[k][j] = board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+                else if (board[k][j] == board[i][j] && noBlockInColumn(j, i, k, board)) {
+                    if (havePlus.indexOf(board[i][j]) > -1) {
+                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                        continue;
+                    }
+
+                    havePlus.push(board[i][j] * 2);
+                    showMoveAnimate(i, j, k, j);
+                    board[k][j] += board[i][j];
+                    board[i][j] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    setTimeout("main.updateBoard()", 200);
+    return true;
+}
+function noBlockInRow(row, start, end, board) {
+    for (var i = start + 1; i < end; i++) {
+        if (board[row][i] != 0)
+            return false;
+    }
+
+    return true;
+}
+function noBlockInColumn(column, start, end, board) {
+    for (var i = start + 1; i < end; i++) {
+        if (board[i][column] != 0)
+            return false;
+    }
+
+    return true;
 }

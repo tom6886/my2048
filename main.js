@@ -5,7 +5,7 @@
 main = {};
 
 $(function () {
-    main.board = new Array();
+    main.board = [];
     main.number = '<div class="number-cell" id="number-cell-{0}-{1}"></div>';
 
     $("#newgame").click(function () {
@@ -27,7 +27,7 @@ $(function () {
         }
 
         for (var i = 0; i < 4; i++) {
-            main.board[i] = new Array();
+            main.board[i] = [];
             for (var j = 0; j < 4; j++) {
                 main.board[i][j] = 0;
             }
@@ -80,9 +80,9 @@ $(function () {
 
             emptyCells.splice(randomIndex, 1);
 
-            var randomNum = Math.random() < 0.5 ? 2 : 4;
+            var randomNum = Math.random() < 0.8 ? 2 : 4;
 
-            main.board[position[0], position[1]] = randomNum;
+            main.board[position[0]][position[1]] = randomNum;
 
             showNumWithAnimation(position[0], position[1], randomNum);
         }
@@ -90,4 +90,31 @@ $(function () {
     };
 
     main.newGame();
+
+    $(document).keydown(function (event) {
+        switch (event.keyCode) {
+            case 37:
+                if (moveLeft(main.board)) {
+                    setTimeout("main.createNumber()", 200);
+                }
+                break;
+            case 38:
+                if (moveUp(main.board)) {
+                    setTimeout("main.createNumber()", 200);
+                }
+                break;
+            case 39:
+                if (moveRight(main.board)) {
+                    setTimeout("main.createNumber()", 200);
+                }
+                break;
+            case 40:
+                if (moveDown(main.board)) {
+                    setTimeout("main.createNumber()", 200);
+                }
+                break;
+            default :
+                break;
+        }
+    });
 });
