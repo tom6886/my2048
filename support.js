@@ -90,6 +90,7 @@ function getEmptyCell(array) {
 }
 function moveLeft(board) {
     var havePlus = [];
+    var hasMoved = false;
     for (var i = 0; i < 4; i++) {
         havePlus = [];
         for (var j = 1; j < 4; j++) {
@@ -99,6 +100,7 @@ function moveLeft(board) {
 
             for (var k = 0; k < j; k++) {
                 if (board[i][k] == 0 && noBlockInRow(i, k, j, board)) {
+                    hasMoved = true;
                     showMoveAnimate(i, j, i, k);
                     board[i][k] = board[i][j];
                     board[i][j] = 0;
@@ -111,6 +113,7 @@ function moveLeft(board) {
                     }
 
                     havePlus.push(board[i][j] * 2);
+                    hasMoved = true;
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
                     board[i][j] = 0;
@@ -120,10 +123,11 @@ function moveLeft(board) {
         }
     }
     setTimeout("main.updateBoard()", 200);
-    return true;
+    return hasMoved;
 }
 function moveRight(board) {
     var havePlus = [];
+    var hasMoved = false;
     for (var i = 0; i < 4; i++) {
         havePlus = [];
         for (var j = 2; j > -1; j--) {
@@ -133,6 +137,7 @@ function moveRight(board) {
 
             for (var k = 3; k > j; k--) {
                 if (board[i][k] == 0 && noBlockInRow(i, j, k, board)) {
+                    hasMoved = true;
                     showMoveAnimate(i, j, i, k);
                     board[i][k] = board[i][j];
                     board[i][j] = 0;
@@ -145,6 +150,7 @@ function moveRight(board) {
                     }
 
                     havePlus.push(board[i][j] * 2);
+                    hasMoved = true;
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
                     board[i][j] = 0;
@@ -154,10 +160,11 @@ function moveRight(board) {
         }
     }
     setTimeout("main.updateBoard()", 200);
-    return true;
+    return hasMoved;
 }
 function moveUp(board) {
     var havePlus = [];
+    var hasMoved = false;
     for (var j = 0; j < 4; j++) {
         havePlus = [];
         for (var i = 1; i < 4; i++) {
@@ -167,6 +174,7 @@ function moveUp(board) {
 
             for (var k = 0; k < i; k++) {
                 if (board[k][j] == 0 && noBlockInColumn(j, k, i, board)) {
+                    hasMoved = true;
                     showMoveAnimate(i, j, k, j);
                     board[k][j] = board[i][j];
                     board[i][j] = 0;
@@ -179,6 +187,7 @@ function moveUp(board) {
                     }
 
                     havePlus.push(board[i][j] * 2);
+                    hasMoved = true;
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];
                     board[i][j] = 0;
@@ -188,10 +197,11 @@ function moveUp(board) {
         }
     }
     setTimeout("main.updateBoard()", 200);
-    return true;
+    return hasMoved;
 }
 function moveDown(board) {
     var havePlus = [];
+    var hasMoved = false;
     for (var j = 0; j < 4; j++) {
         havePlus = [];
         for (var i = 2; i > -1; i--) {
@@ -201,6 +211,7 @@ function moveDown(board) {
 
             for (var k = 3; k > i; k--) {
                 if (board[k][j] == 0 && noBlockInColumn(j, i, k, board)) {
+                    hasMoved = true;
                     showMoveAnimate(i, j, k, j);
                     board[k][j] = board[i][j];
                     board[i][j] = 0;
@@ -213,6 +224,7 @@ function moveDown(board) {
                     }
 
                     havePlus.push(board[i][j] * 2);
+                    hasMoved = true;
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];
                     board[i][j] = 0;
@@ -222,7 +234,7 @@ function moveDown(board) {
         }
     }
     setTimeout("main.updateBoard()", 200);
-    return true;
+    return hasMoved;
 }
 function noBlockInRow(row, start, end, board) {
     for (var i = start + 1; i < end; i++) {
