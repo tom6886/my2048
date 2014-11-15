@@ -5,6 +5,7 @@
 main = {};
 
 $(function () {
+    main.score = 0;
     main.board = [];
     main.number = '<div class="number-cell" id="number-cell-{0}-{1}"></div>';
 
@@ -19,6 +20,8 @@ $(function () {
     };
 
     main.init = function () {
+        main.score = 0;
+
         for (var i = 0; i < 4; i++) {
             for (var j = 0; j < 4; j++) {
                 var cell = $("#grid-cell-" + i + "-" + j);
@@ -37,6 +40,7 @@ $(function () {
     };
 
     main.updateBoard = function () {
+        $("#score").text(main.score);
         $(".number-cell").remove();
 
         for (var i = 0; i < 4; i++) {

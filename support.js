@@ -114,6 +114,7 @@ function moveLeft(board) {
 
                     havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.score += board[i][j];
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
                     board[i][j] = 0;
@@ -151,6 +152,7 @@ function moveRight(board) {
 
                     havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.score += board[i][j];
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
                     board[i][j] = 0;
@@ -188,6 +190,7 @@ function moveUp(board) {
 
                     havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.score += board[i][j];
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];
                     board[i][j] = 0;
@@ -225,6 +228,7 @@ function moveDown(board) {
 
                     havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.score += board[i][j];
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];
                     board[i][j] = 0;
