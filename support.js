@@ -89,10 +89,8 @@ function getEmptyCell(array) {
     return empty;
 }
 function moveLeft(board) {
-    var havePlus = [];
     var hasMoved = false;
     for (var i = 0; i < 4; i++) {
-        havePlus = [];
         for (var j = 1; j < 4; j++) {
             if (board[i][j] == 0) {
                 continue;
@@ -107,13 +105,12 @@ function moveLeft(board) {
                     break;
                 }
                 else if (board[i][k] == board[i][j] && noBlockInRow(i, k, j, board)) {
-                    if (havePlus.indexOf(board[i][j]) > -1) {
-                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                    if (main.hasConflicated[i][k]) {
                         continue;
                     }
 
-                    havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.hasConflicated[i][k] = true;
                     main.score += board[i][j];
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
@@ -127,10 +124,8 @@ function moveLeft(board) {
     return hasMoved;
 }
 function moveRight(board) {
-    var havePlus = [];
     var hasMoved = false;
     for (var i = 0; i < 4; i++) {
-        havePlus = [];
         for (var j = 2; j > -1; j--) {
             if (board[i][j] == 0) {
                 continue;
@@ -145,13 +140,12 @@ function moveRight(board) {
                     break;
                 }
                 else if (board[i][k] == board[i][j] && noBlockInRow(i, j, k, board)) {
-                    if (havePlus.indexOf(board[i][j]) > -1) {
-                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                    if (main.hasConflicated[i][k]) {
                         continue;
                     }
 
-                    havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.hasConflicated[i][k] = true;
                     main.score += board[i][j];
                     showMoveAnimate(i, j, i, k);
                     board[i][k] += board[i][j];
@@ -165,10 +159,8 @@ function moveRight(board) {
     return hasMoved;
 }
 function moveUp(board) {
-    var havePlus = [];
     var hasMoved = false;
     for (var j = 0; j < 4; j++) {
-        havePlus = [];
         for (var i = 1; i < 4; i++) {
             if (board[i][j] == 0) {
                 continue;
@@ -183,13 +175,12 @@ function moveUp(board) {
                     break;
                 }
                 else if (board[k][j] == board[i][j] && noBlockInColumn(j, k, i, board)) {
-                    if (havePlus.indexOf(board[i][j]) > -1) {
-                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                    if (main.hasConflicated[k][j]) {
                         continue;
                     }
 
-                    havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.hasConflicated[k][j] = true;
                     main.score += board[i][j];
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];
@@ -203,10 +194,8 @@ function moveUp(board) {
     return hasMoved;
 }
 function moveDown(board) {
-    var havePlus = [];
     var hasMoved = false;
     for (var j = 0; j < 4; j++) {
-        havePlus = [];
         for (var i = 2; i > -1; i--) {
             if (board[i][j] == 0) {
                 continue;
@@ -221,13 +210,12 @@ function moveDown(board) {
                     break;
                 }
                 else if (board[k][j] == board[i][j] && noBlockInColumn(j, i, k, board)) {
-                    if (havePlus.indexOf(board[i][j]) > -1) {
-                        havePlus.splice(havePlus.indexOf(board[i][j]), 1);
+                    if (main.hasConflicated[k][j]) {
                         continue;
                     }
 
-                    havePlus.push(board[i][j] * 2);
                     hasMoved = true;
+                    main.hasConflicated[k][j] = true;
                     main.score += board[i][j];
                     showMoveAnimate(i, j, k, j);
                     board[k][j] += board[i][j];

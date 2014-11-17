@@ -7,6 +7,7 @@ main = {};
 $(function () {
     main.score = 0;
     main.board = [];
+    main.hasConflicated = [];
     main.number = '<div class="number-cell" id="number-cell-{0}-{1}"></div>';
 
     $("#newgame").click(function () {
@@ -23,16 +24,13 @@ $(function () {
         main.score = 0;
 
         for (var i = 0; i < 4; i++) {
+            main.board[i] = [];
+            main.hasConflicated[i] = [];
             for (var j = 0; j < 4; j++) {
                 var cell = $("#grid-cell-" + i + "-" + j);
                 cell.css({"top": getPosition(i), "left": getPosition(j)});
-            }
-        }
-
-        for (var i = 0; i < 4; i++) {
-            main.board[i] = [];
-            for (var j = 0; j < 4; j++) {
                 main.board[i][j] = 0;
+                main.hasConflicated[i][j] = false;
             }
         }
 
@@ -64,6 +62,8 @@ $(function () {
                     "background-color": getNumberBackGroundColor(main.board[i][j]),
                     "color": getNumberColor(main.board[i][j])
                 }).text(main.board[i][j]);
+
+                main.hasConflicated[i][j] = false;
             }
         }
     };
