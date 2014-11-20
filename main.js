@@ -10,34 +10,44 @@ $(function () {
     main.cellSideLength = 0.18 * main.width;
     main.cellWidth = 0.04 * main.width;
 
+    main.startX = 0;
+    main.startY = 0;
+    main.endX = 0;
+    main.endY = 0;
+
     main.score = 0;
     main.board = [];
     main.hasConflicated = [];
     main.number = '<div class="number-cell" id="number-cell-{0}-{1}"></div>';
 
     $("#newgame").click(function () {
-        main.prepareForMobile();
-
         main.newGame();
     });
 
     main.prepareForMobile = function () {
+        if (main.width > 500) {
+            main.gridWidth = 500;
+            main.cellSideLength = 100;
+            main.cellWidth = 20;
+        }
+
         $('.grid-container').css({
-                "width": main.gridWidth - 2 * main.cellWidth,
-                "height": main.gridWidth - 2 * main.cellWidth,
-                "padding": main.cellWidth,
-                "border-radius": 0.02 * main.gridWidth
-            }
-        )
+            "width": main.gridWidth - 2 * main.cellWidth,
+            "height": main.gridWidth - 2 * main.cellWidth,
+            "padding": main.cellWidth,
+            "border-radius": 0.02 * main.gridWidth
+        });
 
         $('.grid-cell').css({
             "width": main.cellSideLength,
             "height": main.cellSideLength,
             "border-radius": 0.02 * main.cellSideLength
-        })
+        });
     };
 
     main.newGame = function () {
+        main.prepareForMobile();
+
         main.init();
 
         main.createNumber();
@@ -90,7 +100,7 @@ $(function () {
             }
         }
 
-        $('.number-cell').css("line-height", main.cellSideLength);
+        $('.number-cell').css({"line-height": main.cellSideLength + "px", "font-size": 0.6 * main.cellSideLength});
     };
 
     main.createNumber = function () {
@@ -121,30 +131,33 @@ $(function () {
     main.newGame();
 
     $(document).keydown(function (event) {
-        switch (event.keyCode) {
-            case 37:
-                if (moveLeft(main.board)) {
-                    setTimeout("main.createNumber()", 200);
-                }
-                break;
-            case 38:
-                if (moveUp(main.board)) {
-                    setTimeout("main.createNumber()", 200);
-                }
-                break;
-            case 39:
-                if (moveRight(main.board)) {
-                    setTimeout("main.createNumber()", 200);
-                }
-                break;
-            case 40:
-                if (moveDown(main.board)) {
-                    setTimeout("main.createNumber()", 200);
-                }
-                break;
-            default :
-                break;
+        event.preventDefault();
+        move(event.keyCode);
+    });
+
+    document.addEventListener("touchstart", function (event) {
+        main.startX = event.touches[0].pageX;
+        main.startY = event.touches[0].pageY;
+    });
+
+    document.addEventListener("touchmove", function (event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener("touchend", function (event) {
+        main.endX = event.changedTouches[0].pageX;
+        main.endY = event.changedTouches[0].pageY;
+
+        var deltaX = main.startX - main.endX, deltaY = main.startY - main.endY;
+
+        if (Math.abs(deltaX) < 0.3 * main.width && Math.abs(deltaY) < 0.3 * main.width) {
+            return;
+        }
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            move(deltaX > 0 ? 37 : 39);
+        } else {
+            move(deltaY > 0 ? 38 : 40);
         }
     });
-})
-;
+});

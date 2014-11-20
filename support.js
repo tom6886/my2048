@@ -88,6 +88,30 @@ function getEmptyCell(array) {
     }
     return empty;
 }
+function move(key) {
+    var canMove = false;
+    switch (key) {
+        case 37:
+            canMove = moveLeft(main.board);
+            break;
+        case 38:
+            canMove = moveUp(main.board);
+            break;
+        case 39:
+            canMove = moveRight(main.board);
+            break;
+        case 40:
+            canMove = moveDown(main.board);
+            break;
+        default :
+            break;
+    }
+
+    if (canMove) {
+        setTimeout("main.updateBoard()", 200);
+        setTimeout("main.createNumber()", 200);
+    }
+}
 function moveLeft(board) {
     var hasMoved = false;
     for (var i = 0; i < 4; i++) {
@@ -120,7 +144,7 @@ function moveLeft(board) {
             }
         }
     }
-    setTimeout("main.updateBoard()", 200);
+
     return hasMoved;
 }
 function moveRight(board) {
@@ -155,7 +179,7 @@ function moveRight(board) {
             }
         }
     }
-    setTimeout("main.updateBoard()", 200);
+
     return hasMoved;
 }
 function moveUp(board) {
@@ -190,7 +214,7 @@ function moveUp(board) {
             }
         }
     }
-    setTimeout("main.updateBoard()", 200);
+
     return hasMoved;
 }
 function moveDown(board) {
@@ -225,7 +249,7 @@ function moveDown(board) {
             }
         }
     }
-    setTimeout("main.updateBoard()", 200);
+
     return hasMoved;
 }
 function noBlockInRow(row, start, end, board) {
