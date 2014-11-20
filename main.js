@@ -5,14 +5,37 @@
 main = {};
 
 $(function () {
+    main.width = window.screen.availWidth;
+    main.gridWidth = 0.92 * main.width;
+    main.cellSideLength = 0.18 * main.width;
+    main.cellWidth = 0.04 * main.width;
+
     main.score = 0;
     main.board = [];
     main.hasConflicated = [];
     main.number = '<div class="number-cell" id="number-cell-{0}-{1}"></div>';
 
     $("#newgame").click(function () {
+        main.prepareForMobile();
+
         main.newGame();
     });
+
+    main.prepareForMobile = function () {
+        $('.grid-container').css({
+                "width": main.gridWidth - 2 * main.cellWidth,
+                "height": main.gridWidth - 2 * main.cellWidth,
+                "padding": main.cellWidth,
+                "border-radius": 0.02 * main.gridWidth
+            }
+        )
+
+        $('.grid-cell').css({
+            "width": main.cellSideLength,
+            "height": main.cellSideLength,
+            "border-radius": 0.02 * main.cellSideLength
+        })
+    };
 
     main.newGame = function () {
         main.init();
@@ -49,14 +72,14 @@ $(function () {
                     cell.css({
                         "width": "0px",
                         "height": "0px",
-                        "top": getPosition(i) + 50,
-                        "left": getPosition(j) + 50
+                        "top": getPosition(i) + main.cellSideLength / 2,
+                        "left": getPosition(j) + main.cellSideLength / 2
                     });
                     continue;
                 }
                 cell.css({
-                    "width": "100px",
-                    "height": "100px",
+                    "width": main.cellSideLength,
+                    "height": main.cellSideLength,
                     "top": getPosition(i),
                     "left": getPosition(j),
                     "background-color": getNumberBackGroundColor(main.board[i][j]),
@@ -66,6 +89,8 @@ $(function () {
                 main.hasConflicated[i][j] = false;
             }
         }
+
+        $('.number-cell').css("line-height", main.cellSideLength);
     };
 
     main.createNumber = function () {
@@ -121,4 +146,5 @@ $(function () {
                 break;
         }
     });
-});
+})
+;

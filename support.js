@@ -25,7 +25,7 @@ String.prototype.format = function (args) {
 };
 
 function getPosition(i) {
-    return 20 + i * 120;
+    return main.cellWidth + i * (main.cellWidth + main.cellSideLength);
 }
 function getNumberColor(e) {
     if (e <= 4)
